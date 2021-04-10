@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9B0E8073-4F83-4C1D-ADBB-F23C4E2F67F4}</ProjectGuid>
+    <ProjectGuid>{94F913AB-DA19-469C-AD0B-6F53C7F75D59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Inventario.COMMON</RootNamespace>
-    <AssemblyName>Inventario.COMMON</AssemblyName>
+    <RootNamespace>Inventario.BIZ</RootNamespace>
+    <AssemblyName>Inventario.BIZ</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,17 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entidades\Base.cs" />
-    <Compile Include="Entidades\Empleado.cs" />
-    <Compile Include="Entidades\Material.cs" />
-    <Compile Include="Entidades\Vale.cs" />
-    <Compile Include="Interfaces\IManejadorEmpleados.cs" />
-    <Compile Include="Interfaces\IManejadorGenerico.cs" />
-    <Compile Include="Interfaces\IManejadorMateriales.cs" />
-    <Compile Include="Interfaces\IManejadorVales.cs" />
-    <Compile Include="Interfaces\IRepositorio.cs" />
+    <Compile Include="ManejadorEmpleados.cs" />
+    <Compile Include="ManejadorMateriales.cs" />
+    <Compile Include="ManejadorVales.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Inventario.COMMON\Inventario.COMMON.csproj">
+      <Project>{9b0e8073-4f83-4c1d-adbb-f23c4e2f67f4}</Project>
+      <Name>Inventario.COMMON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inventario.DAL\Inventario.DAL.csproj">
+      <Project>{4f915356-eb81-4929-a8c0-d94d3ab47ca8}</Project>
+      <Name>Inventario.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventario.COMMON", "Invent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventario.DAL", "Inventario.DAL\Inventario.DAL.csproj", "{4F915356-EB81-4929-A8C0-D94D3AB47CA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventario.BIZ", "Inventario.BIZ\Inventario.BIZ.csproj", "{94F913AB-DA19-469C-AD0B-6F53C7F75D59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventario.GUI.Administrador", "Inventario.GUI.Administrador\Inventario.GUI.Administrador.csproj", "{4E8F2DF2-D001-44C9-A982-B48E9D3A81C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{4F915356-EB81-4929-A8C0-D94D3AB47CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F915356-EB81-4929-A8C0-D94D3AB47CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F915356-EB81-4929-A8C0-D94D3AB47CA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F913AB-DA19-469C-AD0B-6F53C7F75D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F913AB-DA19-469C-AD0B-6F53C7F75D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F913AB-DA19-469C-AD0B-6F53C7F75D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F913AB-DA19-469C-AD0B-6F53C7F75D59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8F2DF2-D001-44C9-A982-B48E9D3A81C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8F2DF2-D001-44C9-A982-B48E9D3A81C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8F2DF2-D001-44C9-A982-B48E9D3A81C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8F2DF2-D001-44C9-A982-B48E9D3A81C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
