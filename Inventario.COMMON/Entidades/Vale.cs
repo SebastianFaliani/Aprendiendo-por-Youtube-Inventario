@@ -14,5 +14,6 @@ namespace Inventario.COMMON.Entidades
         public List<Material> MaterialesPrestados { get; set; }
         public Empleado Solicitante { get; set; }
         public Empleado EncargadoDeAlmacen { get; set; }
+
     }
 }

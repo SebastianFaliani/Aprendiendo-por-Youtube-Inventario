@@ -11,7 +11,7 @@ namespace Inventario.DAL
 {
     public class RepositorioDeMateriales : IRepositorio<Material>
     {
-        private string DBName = "Inventario.db";
+        private string DBName = @"C:\Users\Sebastian\source\repos\Inventario\DBInventario.db";
         private string TableName = "Materiales";
 
  
