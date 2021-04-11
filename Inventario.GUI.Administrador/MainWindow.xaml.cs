@@ -31,22 +31,37 @@ namespace Inventario.GUI.Administrador
         }
 
         accion AccionEmpleados;
+        accion AccionMateriales;
 
         IManejadorEmpleados manejadorEmpleados;
+        IManejadorMateriales manejadorMateriales;
+
         public MainWindow()
         {
             InitializeComponent();
             manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
+            manejadorMateriales = new ManejadorMateriales(new RepositorioDeMateriales());
+            
             BotonesEmpleados(false);
             LimpiarEmpleados();
             ActualizarTablaEmpleados();
-           
+
+            BotonesMateriales(false);
+            LimpiarMateriales();
+            ActualizarTablaMateriales();
+
         }
 
         private void ActualizarTablaEmpleados()
         {
             dtgEmpleados.ItemsSource = null; //Primero la vacio
             dtgEmpleados.ItemsSource = manejadorEmpleados.Listar;
+        }
+
+        private void ActualizarTablaMateriales()
+        {
+            dtgMateriales.ItemsSource = null; //Primero la vacio
+            dtgMateriales.ItemsSource = manejadorMateriales.Listar;
         }
 
         private void LimpiarEmpleados()
@@ -57,6 +72,14 @@ namespace Inventario.GUI.Administrador
             txbEmpleadosId.Text = "";
         }
 
+        private void LimpiarMateriales()
+        {
+            txtMaterialesNombre.Clear();
+            txtMaterialesCategoria.Clear();
+            txtMaterialesDescripcion.Clear();
+            txbMaterialesId.Text = "";
+        }
+
         private void BotonesEmpleados(bool value)
         {
             btnEmpleadosCancelar.IsEnabled = value;
@@ -64,6 +87,15 @@ namespace Inventario.GUI.Administrador
             btnEmpleadosEliminar.IsEnabled = !value;
             btnEmpleadosGuardar.IsEnabled = value;
             btnEmpleadosNuevos.IsEnabled = !value;
+        }
+
+        private void BotonesMateriales(bool value)
+        {
+            btnMaterialesCancelar.IsEnabled = value;
+            btnMaterialesEditar.IsEnabled = !value;
+            btnMaterialesEliminar.IsEnabled = !value;
+            btnMaterialesGuardar.IsEnabled = value;
+            btnMaterialesNuevos.IsEnabled = !value;
         }
 
         private void btnEmpleadosNuevos_Click(object sender, RoutedEventArgs e)
@@ -154,6 +186,99 @@ namespace Inventario.GUI.Administrador
                     else
                     {
                         MessageBox.Show("No se pudo Eliminar el Empleado", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+            }
+        }
+
+        private void btnMaterialesNuevos_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarMateriales();
+            BotonesMateriales(true);
+            AccionMateriales = accion.Nuevo;
+        }
+
+        private void btnMaterialesEditar_Click(object sender, RoutedEventArgs e)
+        {
+            Material mat = dtgMateriales.SelectedItem as Material;
+            if (mat != null)
+            {
+                txbMaterialesId.Text = mat.Id;
+                txtMaterialesNombre.Text = mat.Nombre;
+                txtMaterialesCategoria.Text = mat.Categoria;
+                txtMaterialesDescripcion.Text = mat.Descripcion;
+                AccionMateriales = accion.Editar;
+                BotonesMateriales(true);
+            }
+        }
+
+        private void btnMaterialesGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            if (AccionMateriales == accion.Nuevo)
+            {
+                Material mat = new Material()
+                {
+                    Nombre = txtMaterialesNombre.Text,
+                    Categoria = txtMaterialesCategoria.Text,
+                    Descripcion = txtMaterialesDescripcion.Text
+                };
+                if (manejadorMateriales.Agregar(mat))
+                {
+                    MessageBox.Show("Material Agregado correctamente", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LimpiarMateriales();
+                    ActualizarTablaMateriales();
+                    BotonesMateriales(false);
+                }
+                else
+                {
+                    MessageBox.Show("Material NO se pudo agregar", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else if (AccionMateriales == accion.Editar)
+            {
+                Material mat = dtgMateriales.SelectedItem as Material;
+                mat.Nombre = txtMaterialesNombre.Text;
+                mat.Categoria = txtMaterialesCategoria.Text;
+                mat.Descripcion = txtMaterialesDescripcion.Text;
+                if (manejadorMateriales.Modificar(mat))
+                {
+                    MessageBox.Show("Material Modificado correctamente", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LimpiarMateriales();
+                    ActualizarTablaMateriales();
+                    BotonesMateriales(false);
+                }
+                else
+                {
+                    MessageBox.Show("Material NO se pudo modificar", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+        }
+
+        private void btnMaterialesCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarMateriales();
+            BotonesMateriales(false);
+        }
+
+        private void btnMaterialesEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            Material mat = dtgMateriales.SelectedItem as Material;
+            if (mat != null)
+            {
+                if (MessageBox.Show("Realmente deseas eliminar este material", "Inventarios", MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
+                {
+                    if (manejadorMateriales.Eliminar(mat.Id))
+                    {
+                        MessageBox.Show("Material Eliminado", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LimpiarMateriales();
+                        ActualizarTablaMateriales();
+                        BotonesMateriales(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo Eliminar el Material", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
             }

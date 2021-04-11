@@ -14,19 +14,7 @@ namespace Inventario.DAL
         private string DBName = "Inventario.db";
         private string TableName = "Materiales";
 
-        public List<Material> Read
-        {
-            get
-            {
-                List<Material> datos = new List<Material>();
-                using (var db = new LiteDatabase(DBName))
-                {
-                    datos = db.GetCollection<Material>(TableName).FindAll().ToList();
-                }
-                return datos;
-            }
-
-        }
+ 
 
         public bool Create(Material entidad)
         {
@@ -46,21 +34,18 @@ namespace Inventario.DAL
             }
         }
 
-        public bool Delete(string id)
+        public List<Material> Read
         {
-            try
+            get
             {
+                List<Material> datos = new List<Material>();
                 using (var db = new LiteDatabase(DBName))
                 {
-                    var coleccion = db.GetCollection<Material>(TableName);
-                    coleccion.Delete(id);
+                    datos = db.GetCollection<Material>(TableName).FindAll().ToList();
                 }
-                return true;
+                return datos;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+
         }
 
         public bool Update(Material entidadModificada)
@@ -71,6 +56,23 @@ namespace Inventario.DAL
                 {
                     var coleccion = db.GetCollection<Material>(TableName);
                     coleccion.Update(entidadModificada);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool Delete(string id)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(DBName))
+                {
+                    var coleccion = db.GetCollection<Material>(TableName);
+                    coleccion.Delete(id);
                 }
                 return true;
             }
