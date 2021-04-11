@@ -1,6 +1,7 @@
 ﻿using Inventario.COMMON.Entidades;
 using Inventario.COMMON.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace Inventario.BIZ
         public bool Agregar(Vale entidad)
         {
             return repositorio.Create(entidad);
+        }
+
+        public IEnumerable BuscarNoEntregadoPorEmpleado(Empleado empleado)
+        {
+            return repositorio.Read.Where(e => e.Solicitante.Id == empleado.Id && e.FechaEntegaReal==null);
         }
 
         public Vale BuscarPorId(string id)

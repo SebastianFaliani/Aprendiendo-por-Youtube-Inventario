@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Inventario.COMMON.Entidades;
 using Inventario.BIZ;
 using Inventario.DAL;
-
+using Inventario.COMMON.Interfaces;
 
 namespace Inventario.GUI.Almacen
 {
@@ -25,7 +25,7 @@ namespace Inventario.GUI.Almacen
     /// </summary>
     public partial class MainWindow : Window
     {
-        ManejadorVales manejadorVales;
+        IManejadorVales manejadorVales;
         ManejadorEmpleados manejadorEmpleados;
         ManejadorMateriales manejadorMateriales;
         Vale vVale;
@@ -92,7 +92,9 @@ namespace Inventario.GUI.Almacen
                     if (manejadorVales.Eliminar(v.Id))
                     {
                         MessageBox.Show("Eliminado con exito", "Almacén", MessageBoxButton.OK, MessageBoxImage.Information);
+                        LimpiarCamposDeVales();
                         ActualizarTabladeVales();
+                        gridDetalle.IsEnabled = false;
                     }
                     else
                     {
@@ -203,6 +205,12 @@ namespace Inventario.GUI.Almacen
                 cmbSolicitante.Text = vVale.Solicitante.ToString();
                 dtpFechaEntrega.SelectedDate = vVale.FechaEntrega;
             }
+        }
+
+        private void btnReportes_Click(object sender, RoutedEventArgs e)
+        {
+            Reportes reportes = new Reportes();
+            reportes.Show();
         }
     }
 }

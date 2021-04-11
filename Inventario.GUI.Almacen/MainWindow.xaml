@@ -21,6 +21,7 @@
             <WrapPanel Grid.Row="1">
                 <Button x:Name="btnNuevoVale" Click="btnNuevoVale_Click">Nuevo</Button>
                 <Button x:Name="btnEliminarVale" Click="btnEliminarVale_Click">Eliminar</Button>
+                <Button x:Name="btnReportes" Click="btnReportes_Click">Reportes</Button>
             </WrapPanel>
             <DataGrid Grid.Row="2" x:Name="dtgVales" IsReadOnly="True" MouseDoubleClick="dtgVales_MouseDoubleClick"></DataGrid>
         </Grid>
