@@ -2,8 +2,10 @@
 using Inventario.COMMON.Entidades;
 using Inventario.COMMON.Interfaces;
 using Inventario.DAL;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,18 +54,25 @@ namespace Inventario.GUI.Administrador
 
         }
 
+        //************************************//
+        //********** INICIO METODOS **********//
+        //************************************//
+
+        //Metodo
         private void ActualizarTablaEmpleados()
         {
             dtgEmpleados.ItemsSource = null; //Primero la vacio
             dtgEmpleados.ItemsSource = manejadorEmpleados.Listar;
         }
-
+        
+        //Metodo
         private void ActualizarTablaMateriales()
         {
             dtgMateriales.ItemsSource = null; //Primero la vacio
             dtgMateriales.ItemsSource = manejadorMateriales.Listar;
         }
-
+        
+        //Metodo
         private void LimpiarEmpleados()
         {
             txtEmpleadosApellidos.Clear();
@@ -71,7 +80,8 @@ namespace Inventario.GUI.Administrador
             txtEmpleadosArea.Clear();
             txbEmpleadosId.Text = "";
         }
-
+        
+        //Metodo
         private void LimpiarMateriales()
         {
             txtMaterialesNombre.Clear();
@@ -80,6 +90,7 @@ namespace Inventario.GUI.Administrador
             txbMaterialesId.Text = "";
         }
 
+        //Metodo
         private void BotonesEmpleados(bool value)
         {
             btnEmpleadosCancelar.IsEnabled = value;
@@ -89,6 +100,7 @@ namespace Inventario.GUI.Administrador
             btnEmpleadosNuevos.IsEnabled = !value;
         }
 
+        //Metodo
         private void BotonesMateriales(bool value)
         {
             btnMaterialesCancelar.IsEnabled = value;
@@ -97,6 +109,45 @@ namespace Inventario.GUI.Administrador
             btnMaterialesGuardar.IsEnabled = value;
             btnMaterialesNuevos.IsEnabled = !value;
         }
+
+        //Metodo - Convierto la imagen en un arreglo de byte
+        private byte[] ImageToByte(ImageSource imagen)
+        {
+            if (imagen != null)
+            {
+                MemoryStream memoryStream = new MemoryStream();                     //Creo un espacio en memoria
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();                //Creo un codificador a jpg
+
+                encoder.Frames.Add(BitmapFrame.Create(imagen as BitmapSource));      //Creo un mapa de bit de la imagen y la agrego al codificador
+                encoder.Save(memoryStream);                                         //Lo guardo em el espacio en memoria
+                return memoryStream.ToArray();                                      //Lo devuelvo en un array
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //Metodo - Convierto el arreglo de byte en una imagen
+        private ImageSource ByteToImage(byte[] imageData)
+        {
+            if (imageData != null)
+            {
+                BitmapImage bitmap = new BitmapImage();                             //Creo una imagen de mapa de bit
+                MemoryStream memoryStream = new MemoryStream(imageData);            //Creo un espacio en memoria con el array de imagen
+
+                bitmap.BeginInit();                                                 //Inicializo el mapa de bit para la decodificacion
+                bitmap.StreamSource = memoryStream;                                 //Al mapa de bit le paso el array de la imagen para decodificarlo
+                bitmap.EndInit();                                                   //Finalizo el mapa de bit
+                ImageSource imageSource = bitmap as ImageSource;                    //Lo convierto en Un origen de imagen
+                return imageSource;                                                 //Devuelvo ese origen de imagen
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         private void btnEmpleadosNuevos_Click(object sender, RoutedEventArgs e)
         {
@@ -203,16 +254,19 @@ namespace Inventario.GUI.Administrador
             Material mat = dtgMateriales.SelectedItem as Material;
             if (mat != null)
             {
+                LimpiarMateriales();
+                AccionMateriales = accion.Editar;
+                BotonesMateriales(true);
                 txbMaterialesId.Text = mat.Id;
                 txtMaterialesNombre.Text = mat.Nombre;
                 txtMaterialesCategoria.Text = mat.Categoria;
                 txtMaterialesDescripcion.Text = mat.Descripcion;
-                AccionMateriales = accion.Editar;
-                BotonesMateriales(true);
+                imgFoto.Source = ByteToImage(mat.Fotografia);
+                
             }
         }
 
-        private void btnMaterialesGuardar_Click(object sender, RoutedEventArgs e)
+         private void btnMaterialesGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (AccionMateriales == accion.Nuevo)
             {
@@ -220,8 +274,10 @@ namespace Inventario.GUI.Administrador
                 {
                     Nombre = txtMaterialesNombre.Text,
                     Categoria = txtMaterialesCategoria.Text,
-                    Descripcion = txtMaterialesDescripcion.Text
+                    Descripcion = txtMaterialesDescripcion.Text,
+                    Fotografia = ImageToByte(imgFoto.Source)
                 };
+
                 if (manejadorMateriales.Agregar(mat))
                 {
                     MessageBox.Show("Material Agregado correctamente", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -240,6 +296,7 @@ namespace Inventario.GUI.Administrador
                 mat.Nombre = txtMaterialesNombre.Text;
                 mat.Categoria = txtMaterialesCategoria.Text;
                 mat.Descripcion = txtMaterialesDescripcion.Text;
+                mat.Fotografia = ImageToByte(imgFoto.Source);
                 if (manejadorMateriales.Modificar(mat))
                 {
                     MessageBox.Show("Material Modificado correctamente", "Inventarios", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -283,5 +340,17 @@ namespace Inventario.GUI.Administrador
                 }
             }
         }
+
+        private void btnCargarFoto_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialogo = new OpenFileDialog();
+            dialogo.Title = "Seleccione una foto";
+            dialogo.Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg;*.gif|Todos los Archivos *.*|*.*";
+            if (dialogo.ShowDialog().Value)
+            {
+                imgFoto.Source = new BitmapImage(new Uri(dialogo.FileName));
+            }
+        }
+
     }
 }

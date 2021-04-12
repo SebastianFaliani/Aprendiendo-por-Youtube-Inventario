@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Inventario.GUI.Administrador"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <TabControl>
         <TabItem Header="Empleados">
             <Grid>
@@ -73,8 +73,35 @@
                         <TextBlock>Descripcion:</TextBlock>
                         <TextBox x:Name="txtMaterialesDescripcion" Width="200"></TextBox>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="imgFoto" Height="50" Width="50"/>
+                        <Button x:Name="btnCargarFoto" Click="btnCargarFoto_Click">Cargar Foto</Button>
+                    </StackPanel>
                 </WrapPanel>
-                <DataGrid Grid.Row="2" IsReadOnly="True" x:Name="dtgMateriales"/>
+                <ListView Grid.Row="2" x:Name="dtgMateriales">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".25*"/>
+                                    <ColumnDefinition Width=".75*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Fotografia}" Height="50" Width="50"/>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock Text="[" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Categoria}" FontWeight="Bold"/>
+                                    <TextBlock Text="]" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Nombre}"/>
+                                </StackPanel>
+                                <Label Grid.Column="1" Grid.Row="1" Content="{Binding Descripcion}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </TabItem>
         <TabItem Header="Reportes">
