@@ -30,7 +30,7 @@ namespace Inventario.GUI.Almacen
             InitializeComponent();
             manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
             manejadorVales = new ManejadorVales(new RepositorioDeVales());
-            cmbPersona.ItemsSource = manejadorEmpleados.Listar;
+            cmbPersona.ItemsSource = manejadorEmpleados.Listar.OrderBy(e=>e.Nombre);
         }
 
         private void btnImprimirPorPersona_Click(object sender, RoutedEventArgs e)
@@ -42,8 +42,8 @@ namespace Inventario.GUI.Almacen
         {
             if (cmbPersona.SelectedItem != null)
             {
-                dtgTablaVales.ItemsSource = null;
-                dtgTablaVales.ItemsSource = manejadorVales.BuscarNoEntregadoPorEmpleado((cmbPersona.SelectedItem as Empleado));
+                lstTablaVales.ItemsSource = null;
+                lstTablaVales.ItemsSource = manejadorVales.BuscarNoEntregadoPorEmpleado((cmbPersona.SelectedItem as Empleado));
             }
         }
     }

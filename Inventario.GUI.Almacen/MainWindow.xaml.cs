@@ -130,7 +130,7 @@ namespace Inventario.GUI.Almacen
                 vVale.FechaEntrega = dtpFechaEntrega.SelectedDate.Value;
                 vVale.FechaHoraSolicitud = DateTime.Now;
                 vVale.Solicitante = cmbSolicitante.SelectedItem as Empleado;
-                vVale.FechaEntegaReal =Convert.ToDateTime( lblFechaHoraEntregaReal.Content.ToString());
+                if (lblFechaHoraEntregaReal.Content.ToString() != "") vVale.FechaEntegaReal = Convert.ToDateTime(lblFechaHoraEntregaReal.Content.ToString());
                 if (manejadorVales.Modificar(vVale))
                 {
                     MessageBox.Show("Vale Guardado con exito", "Almacén", MessageBoxButton.OK, MessageBoxImage.Information);

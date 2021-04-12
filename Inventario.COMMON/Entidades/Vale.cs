@@ -15,5 +15,11 @@ namespace Inventario.COMMON.Entidades
         public Empleado Solicitante { get; set; }
         public Empleado EncargadoDeAlmacen { get; set; }
 
+        public override string ToString()
+        {
+            return string.Format("{0} {1} debe {2} articulos y los deberia de entregar el {3}", Solicitante.Nombre, Solicitante.Apellidos,
+                MaterialesPrestados.Count, FechaEntrega.ToShortDateString());
+        }
+
     }
 }
