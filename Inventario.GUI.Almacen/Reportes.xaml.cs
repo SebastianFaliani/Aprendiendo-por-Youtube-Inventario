@@ -28,8 +28,8 @@ namespace Inventario.GUI.Almacen
         public Reportes()
         {
             InitializeComponent();
-            manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
-            manejadorVales = new ManejadorVales(new RepositorioDeVales());
+            manejadorEmpleados = new ManejadorEmpleados(new RepositoGenerico<Empleado>());
+            manejadorVales = new ManejadorVales(new RepositoGenerico<Vale>());
             cmbPersona.ItemsSource = manejadorEmpleados.Listar.OrderBy(e=>e.Nombre);
         }
 

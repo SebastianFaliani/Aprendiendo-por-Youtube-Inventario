@@ -1,4 +1,5 @@
 ﻿using Inventario.COMMON.Entidades;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace Inventario.COMMON.Interfaces
     {
         bool Agregar(T entidad);
         List<T> Listar { get; }
-        bool Eliminar(string id);
+        bool Eliminar(ObjectId id);
         bool Modificar(T entidad);
-        T BuscarPorId(string id);
+        T BuscarPorId(ObjectId id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Inventario.COMMON.Entidades;
 using Inventario.COMMON.Interfaces;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,12 @@ namespace Inventario.BIZ
             return repositorio.Create(entidad);
         }
 
-        public Material BuscarPorId(string id)
+        public Material BuscarPorId(ObjectId id)
         {
             return Listar.Where(e => e.Id == id).FirstOrDefault();
         }
 
-        public bool Eliminar(string id)
+        public bool Eliminar(ObjectId id)
         {
             return repositorio.Delete(id);
         }

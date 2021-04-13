@@ -1,4 +1,5 @@
 ﻿using Inventario.COMMON.Entidades;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Inventario.COMMON.Interfaces
         bool Create(T entidad);
         List<T> Read { get; }
         bool Update(T entidadModificada);
-        bool Delete(string id);
+        bool Delete(ObjectId id);
         
     }
 }

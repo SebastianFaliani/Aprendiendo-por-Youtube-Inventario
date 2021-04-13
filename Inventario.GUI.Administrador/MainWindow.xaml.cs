@@ -41,9 +41,18 @@ namespace Inventario.GUI.Administrador
         public MainWindow()
         {
             InitializeComponent();
-            manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
-            manejadorMateriales = new ManejadorMateriales(new RepositorioDeMateriales());
-            
+
+
+
+            /* Al usar MongoDB en lugar de usar un repositorio por cada entidad
+             solo uso el repositorio generico */
+
+            //manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
+            //manejadorMateriales = new ManejadorMateriales(new RepositorioDeMateriales());
+
+            manejadorEmpleados = new ManejadorEmpleados(new RepositoGenerico<Empleado>());
+            manejadorMateriales = new ManejadorMateriales(new RepositoGenerico<Material>());
+
             BotonesEmpleados(false);
             LimpiarEmpleados();
             ActualizarTablaEmpleados();
@@ -161,7 +170,7 @@ namespace Inventario.GUI.Administrador
             Empleado emp = dtgEmpleados.SelectedItem as Empleado;
             if(emp != null)
             {
-                txbEmpleadosId.Text = emp.Id;
+                txbEmpleadosId.Text = emp.Id.ToString();
                 txtEmpleadosApellidos.Text = emp.Apellidos;
                 txtEmpleadosNombre.Text = emp.Nombre;
                 txtEmpleadosArea.Text = emp.Area;
@@ -257,7 +266,7 @@ namespace Inventario.GUI.Administrador
                 LimpiarMateriales();
                 AccionMateriales = accion.Editar;
                 BotonesMateriales(true);
-                txbMaterialesId.Text = mat.Id;
+                txbMaterialesId.Text = mat.Id.ToString();
                 txtMaterialesNombre.Text = mat.Nombre;
                 txtMaterialesCategoria.Text = mat.Categoria;
                 txtMaterialesDescripcion.Text = mat.Descripcion;

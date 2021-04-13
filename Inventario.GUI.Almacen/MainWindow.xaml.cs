@@ -40,9 +40,9 @@ namespace Inventario.GUI.Almacen
         public MainWindow()
         {
             InitializeComponent();
-            manejadorVales = new ManejadorVales(new RepositorioDeVales());
-            manejadorEmpleados = new ManejadorEmpleados(new RepositorioDeEmpleados());
-            manejadorMateriales = new ManejadorMateriales(new RepositorioDeMateriales());
+            manejadorVales = new ManejadorVales(new RepositoGenerico<Vale>());
+            manejadorEmpleados = new ManejadorEmpleados(new RepositoGenerico<Empleado>());
+            manejadorMateriales = new ManejadorMateriales(new RepositoGenerico<Material>());
             ActualizarTabladeVales();
             gridDetalle.IsEnabled = false;
         }

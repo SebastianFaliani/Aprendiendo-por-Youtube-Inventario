@@ -1,5 +1,6 @@
 ﻿using Inventario.COMMON.Entidades;
 using Inventario.COMMON.Interfaces;
+using MongoDB.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,12 +31,12 @@ namespace Inventario.BIZ
             return repositorio.Read.Where(e => e.Solicitante.Id == empleado.Id && e.FechaEntegaReal==null).OrderBy(e => e.FechaEntrega);
         }
 
-        public Vale BuscarPorId(string id)
+        public Vale BuscarPorId(ObjectId id)
         {
             return Listar.Where(e=> e.Id==id).SingleOrDefault();
         }
 
-        public bool Eliminar(string id)
+        public bool Eliminar(ObjectId id)
         {
             return repositorio.Delete(id);
         }
