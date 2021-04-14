@@ -15,6 +15,8 @@ using Inventario.COMMON.Interfaces;
 using Inventario.DAL;
 using Inventario.BIZ;
 using Inventario.COMMON.Entidades;
+using Microsoft.Reporting.WinForms;
+using Inventario.COMMON.Modelos;
 
 namespace Inventario.GUI.Almacen
 {
@@ -35,7 +37,22 @@ namespace Inventario.GUI.Almacen
 
         private void btnImprimirPorPersona_Click(object sender, RoutedEventArgs e)
         {
+            List<ReportDataSource> datos = new List<ReportDataSource>();
+            ReportDataSource vales = new ReportDataSource();
+            List<ModelValesParaReporte> valesporentregar = new List<ModelValesParaReporte>();
 
+            foreach (Vale item in manejadorVales.ValesPorLiquidar())
+            {
+                valesporentregar.Add(new ModelValesParaReporte(item));
+            }
+            vales.Value = valesporentregar;
+            vales.Name="Vales";
+            datos.Add(vales);
+
+            
+
+            Reporteador ventana = new Reporteador("Inventario.GUI.Almacen.Reportes.ValesEntregar.rdlc", datos);
+            ventana.ShowDialog();
         }
 
         private void cmbPersona_SelectionChanged(object sender, SelectionChangedEventArgs e)
